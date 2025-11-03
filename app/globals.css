@@ -3,6 +3,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+*{
+    background-color: rgb(22, 19, 19);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -119,4 +123,31 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.container {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+@media (min-width: 375px) {
+    .container {
+        max-width: 375px;
+    }
+}
+@media (min-width: 768px) {
+    .container {
+        max-width: 768px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1200px;
+        padding-right: 80px;
+        padding-left: 80px;
+    }
 }
