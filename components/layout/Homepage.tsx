@@ -1,8 +1,9 @@
 "use client"
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Background from './Background'
 import { Button } from '../ui/button'
+import { useRouter} from "next/navigation";
 
 
 const Homepage = () => {
@@ -10,13 +11,36 @@ const Homepage = () => {
     const [name, setName] = useState<string>("");
     const [email, SetEmail] = useState<string>("");
     const [error, setError] = useState<string>("");
+    const [submitting, setSubmitting] = useState<boolean>(false);
+    const router = useRouter();
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = async  (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setSubmitting(true);
 
-        
+        try {
+            // console.log(name, email);
+            const response = await fetch("/api/subscribers/new", {
+                method: "POST",
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                })
+            })
+
+            if (response.ok) {
+                router.push('/thanks');
+                localStorage.setItem("name", name)
+            }
+
+        } catch (error) {
+            setError("Server Error");
+            console.log(error)
+
+        } finally {
+            setSubmitting(false);
+        }
     }
-
 
   return (
     <div className='container'>
@@ -49,7 +73,7 @@ const Homepage = () => {
             /><br></br>
             {error && <p className='text-red-500'>{error}</p>}
             <Button variant={'secondary'} size={'lg'} type='submit'>
-                Submit
+                {submitting ? "Submitting..." : "Submit"}
             </Button>
         </form>
         </div>
