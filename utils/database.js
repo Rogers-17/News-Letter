@@ -11,7 +11,7 @@ export const ConnectDB = async () => {
     }
 
     try{
-        await mongoose.connect(process.env.MONGODB_URI, {
+        await mongoose.connect(process.env.MONGODB_URI || process.env.MONGO_ATLAS_URL, {
             dbName: "subscriptionDB",
         })
 
